@@ -1,6 +1,7 @@
 from django.shortcuts import render
+from django_filters.rest_framework import FilterSet, DjangoFilterBackend
+from django_filters.rest_framework import BooleanFilter
 from rest_framework.response import Response
-from rest_framework.views import APIView
 
 
 # Create your views here.
@@ -13,17 +14,22 @@ class TableViewSet(viewsets.ModelViewSet):
     queryset = Table.objects.all()
     serializer_class = TableSerializer
 
+class ReservationFilter(FilterSet):
+    future_only = BooleanFilter(method='filter_future_only')
 
+    class Meta:
+        model = Reservation
+        fields = ['future_only']
+
+    def filter_future_only(self, queryset, name, value):
+        if value:
+            return queryset.filter(reservation_date__gte=now()).order_by('reservation_date')
 
 class ReservationViewSet(viewsets.ModelViewSet):
     serializer_class = ReservationSerializer
     queryset = Reservation.objects.all()
-    def get_queryset(self):
-        # TODO django-filter???????
-        if self.action == 'list':
-            today = now().date()
-            return Reservation.objects.filter(date__gte=today)
-        return super().get_queryset()
+    filter_backends = [DjangoFilterBackend]
+    filter_class = ReservationFilter
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
