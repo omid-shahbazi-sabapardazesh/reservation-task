@@ -13,18 +13,19 @@ class TableViewSet(viewsets.ModelViewSet):
     queryset = Table.objects.all()
     serializer_class = TableSerializer
 
-    def destroy(self, request, *args, **kwargs):
-        instance = self.get_object()
-        Table.objects.filter(pk=instance.pk).update(canceled=True)
-        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class ReservationViewSet(viewsets.ModelViewSet):
     serializer_class = ReservationSerializer
-
+    queryset = Reservation.objects.all()
     def get_queryset(self):
         # TODO django-filter???????
         if self.action == 'list':
             today = now().date()
             return Reservation.objects.filter(date__gte=today)
         return super().get_queryset()
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        Reservation.objects.filter(pk=instance.pk).update(canceled=True)
+        return Response(status=status.HTTP_204_NO_CONTENT)
