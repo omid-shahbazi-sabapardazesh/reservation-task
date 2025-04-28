@@ -9,5 +9,5 @@ COPY app/requirements.txt .
 
 RUN pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --default-timeout=20 -r requirements.txt
 COPY ./app .
-CMD ["./wait-for-it.sh", "python", "manage.py", "migrate"]
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+
+CMD ["bash", "-c", "python manage.py wait_for_db && python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
