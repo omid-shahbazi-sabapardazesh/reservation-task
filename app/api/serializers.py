@@ -9,4 +9,10 @@ class TableSerializer(serializers.ModelSerializer):
 class ReservationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reservation
-        fields = '__all__'
+        fields = ("id", "reservation_date", "created_time", "reserved_seat_count", "table", "canceled")
+        read_only_fields = ('total_price',)
+
+    def validate_reserved_seat_count(self, value):
+        if value % 2 != 0:
+            value += 1
+        return value
