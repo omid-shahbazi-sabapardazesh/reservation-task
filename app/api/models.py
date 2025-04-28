@@ -27,7 +27,7 @@ class Reservation(models.Model):
 
     def save(self, *args, **kwargs):
         if self.reserved_seat_count == self.table.seat_count:
-            self.total_price = self.table.price_seat * (self.reserved_seat_count - 1)
+            self.total_price = self.table.seat_price * (self.reserved_seat_count - 1)
 
-        self.total_price = self.table.price_seat * self.reserved_seat_count
+        self.total_price = self.table.seat_price * self.reserved_seat_count
         super().save(*args, **kwargs)
