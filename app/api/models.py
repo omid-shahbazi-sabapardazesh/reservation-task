@@ -20,7 +20,7 @@ class Reservation(models.Model):
     id = models.AutoField(primary_key=True)
     reservation_date = models.DateField()
     created_time  = models.DateTimeField(auto_now_add=True)
-    reserved_seat_count = models.PositiveIntegerField(validators=[MinValueValidator(4), MaxValueValidator(10)])
+    reserved_seat_count = models.PositiveIntegerField(validators=[MaxValueValidator(10)])
     table = models.ForeignKey(Table, on_delete=models.CASCADE)
     canceled = models.BooleanField(default=False)
     total_price = models.PositiveIntegerField()
@@ -28,6 +28,6 @@ class Reservation(models.Model):
     def save(self, *args, **kwargs):
         if self.reserved_seat_count == self.table.seat_count:
             self.total_price = self.table.seat_price * (self.reserved_seat_count - 1)
-
-        self.total_price = self.table.seat_price * self.reserved_seat_count
+        else:
+            self.total_price = self.table.seat_price * self.reserved_seat_count
         super().save(*args, **kwargs)

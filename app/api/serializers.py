@@ -17,6 +17,10 @@ class ReservationSerializer(serializers.ModelSerializer):
         read_only_fields = ('total_price', "canceled", 'table')
 
     def validate_reserved_seat_count(self, value):
+        if value < 3:
+            raise ValidationError("Reservation under 4 seats is not allowed")
+        if value > 10:
+            raise ValidationError("Reservation over 10 seats is not allowed")
         if value % 2 != 0:
             value += 1
         return value
