@@ -2,6 +2,8 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from rest_framework.exceptions import ValidationError
 
+from core import settings
+
 
 # Create your models here.
 
@@ -25,6 +27,11 @@ class Reservation(models.Model):
     canceled = models.BooleanField(default=False)
     total_price = models.PositiveIntegerField()
 
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='reservations'
+    )
     def save(self, *args, **kwargs):
         if self.reserved_seat_count == self.table.seat_count:
             self.total_price = self.table.seat_price * (self.reserved_seat_count - 1)

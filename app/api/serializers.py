@@ -13,8 +13,11 @@ class TableSerializer(serializers.ModelSerializer):
 class ReservationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reservation
-        fields = ("id", "reservation_date", "created_time", "reserved_seat_count", 'total_price', "canceled", "table")
-        read_only_fields = ('total_price', "canceled", 'table')
+        fields = (
+            "id", "reservation_date", "created_time", "reserved_seat_count",
+            'total_price', "canceled", "table", "user"
+        )
+        read_only_fields = ('total_price', "canceled", 'table', "user")
 
     def validate_reserved_seat_count(self, value):
         if value < 3:
@@ -38,8 +41,10 @@ class ReservationSerializer(serializers.ModelSerializer):
             table=best_table,
             reserved_seat_count=seat_count,
             reservation_date=reservation_date,
+            user=self.context["request"].user
         )
         return reservation
+
     def get_available_tables(self, reservation_date, seat_count):
         suitable_tables = Table.objects.filter(seat_count__gte=seat_count)
         reserved_table_ids = Reservation.objects.filter(
