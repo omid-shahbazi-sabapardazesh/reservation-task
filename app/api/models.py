@@ -5,14 +5,14 @@ from rest_framework.exceptions import ValidationError
 
 # Create your models here.
 
-class EvenSeatsValidator:
-    def __call__(self, value):
-        if value % 2 != 0:
-            raise ValidationError('Total number of seats must be an even number.')
+
+def validate_even(value):
+    if value % 2 != 0:
+        raise ValidationError(f"Must be an even number")
 
 class Table(models.Model):
     id = models.AutoField(primary_key=True)
-    seat_count = models.PositiveIntegerField(default=10, validators=[MinValueValidator(4), MaxValueValidator(10), EvenSeatsValidator()])
+    seat_count = models.PositiveIntegerField(default=10, validators=[MinValueValidator(4), MaxValueValidator(10), validate_even])
     seat_price = models.PositiveIntegerField()
 
 
