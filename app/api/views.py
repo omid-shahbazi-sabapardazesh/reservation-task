@@ -1,17 +1,9 @@
-import logging
-
-from django.shortcuts import render
-from django_filters import DateFilter
 from django_filters.rest_framework import FilterSet, DjangoFilterBackend
-from django_filters.rest_framework import BooleanFilter
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-
-
-# Create your views here.
 from rest_framework import viewsets, status
 from .models import Table, Reservation
 from .serializers import TableSerializer, ReservationSerializer
-from django.utils.timezone import now
 
 class TableViewSet(viewsets.ModelViewSet):
     queryset = Table.objects.all()
@@ -30,6 +22,7 @@ class ReservationViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filter_class = ReservationFilter
     filterset_fields = ["reservation_date", "canceled", "table"]
+    permission_classes = [IsAuthenticated]
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         Reservation.objects.filter(pk=instance.pk).update(canceled=True)

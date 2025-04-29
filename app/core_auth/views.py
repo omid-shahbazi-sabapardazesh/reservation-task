@@ -1,3 +1,4 @@
+from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -9,6 +10,7 @@ from .models import CustomUser
 from .serializers import SignUpSerializer
 
 class LoginView(APIView):
+    permission_classes = [AllowAny]
     def post(self, request, *args, **kwargs):
         auth_type = request.data.get('auth_type', 'default')
         authenticator = AuthenticatorFactory.get_authenticator(auth_type)
@@ -27,3 +29,4 @@ class LoginView(APIView):
 class SignUpView(generics.CreateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = SignUpSerializer
+    permission_classes = [AllowAny]
