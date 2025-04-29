@@ -41,8 +41,8 @@ INSTALLED_APPS = [
     "core",
     "core_auth",
     "api",
-    "django_filters"
-
+    "django_filters",
+    "drf_spectacular"
 
 ]
 
@@ -143,6 +143,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'core.permissions.IsOwnerUser',
     ),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 SIMPLE_JWT = {
@@ -150,3 +151,4 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=30),
 
 }
+
