@@ -6,7 +6,7 @@ app_name = "api"
 
 router = routers.DefaultRouter()
 router.register(r'tables', TableViewSet)
-router.register(r'reservations', ReservationViewSet)
+router.register(r'book', ReservationViewSet)
 
 
 urlpatterns = [
