@@ -13,10 +13,7 @@ class TableSerializer(serializers.ModelSerializer):
 class ReservationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reservation
-        fields = (
-            "id", "reservation_date", "created_time", "reserved_seat_count",
-            'total_price', "canceled", "table", "user"
-        )
+        fields = "__all__"
         read_only_fields = ('total_price', "canceled", 'table', "user")
 
     def validate_reserved_seat_count(self, value):
