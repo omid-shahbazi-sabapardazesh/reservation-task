@@ -12,4 +12,4 @@ pytest==8.3.5
 pytest-django==4.11.1
 drf-spectacular==0.28.0
 some-random-lib==1.0.0
-request=1.1.1
+request==1.1.1
